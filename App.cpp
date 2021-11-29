@@ -76,7 +76,7 @@ int App::getInput()
 
         case hash("remove"):
             getline(stream, token, '\n');
-            if (std::isdigit(token[0]))
+            if (stringIsNumber(token))
             {
                 contest->removeParticipant(std::stoi(token));
             }
@@ -94,7 +94,7 @@ int App::getInput()
             return 0;
 
         default:
-            std::cout << ">wrong command" << std::endl;
+            std::cout << ">invalid command" << std::endl;
             break;
     }
 
