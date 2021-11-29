@@ -1,0 +1,9 @@
+# ignore all
+*
+# whitelist directory
+!*/
+# add exceptions for extensions 
+!*.h
+!*.cpp
+# add exceptions for files 
+!.gitignore
