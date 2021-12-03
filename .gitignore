@@ -4,6 +4,7 @@
 !*/
 # add exceptions for extensions 
 !*.h
+!*.hpp
 !*.cpp
 # add exceptions for files 
 !.gitignore
