@@ -4,11 +4,11 @@
 #include <map>
 #include <string>
 
+#include "Lottery.hpp"
+#include "Lotterybase.hpp"
 #include "Parser.hpp"
 #include "User.hpp"
 #include "Userbase.hpp"
-#include "Lottery.hpp"
-#include "Lotterybase.hpp"
 
 class Coordinator
 {
@@ -31,7 +31,7 @@ private:
         value
     };
     std::map<std::string, Commands> commandList;
-	Parser parser;
+    Parser parser;
     Userbase userbase;
     Lotterybase lotterybase;
     User* currentUser = nullptr;
@@ -44,6 +44,6 @@ private:
     void passChangeTo();
 
 public:
-	Coordinator();
-	bool getInput();
+    Coordinator();
+    bool getInput();
 };

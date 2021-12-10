@@ -6,7 +6,11 @@
 class User
 {
 public:
-	enum Privilages { basicAccess, admin };
+    enum Privilages
+    {
+        basicAccess,
+        admin
+    };
 
 	User(std::string& setUsername, Privilages setAccessType) : username{ setUsername }, accessType{ setAccessType }{}
 
