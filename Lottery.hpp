@@ -1,63 +1,45 @@
-#define _CRT_SECURE_NO_WARNINGS
+#pragma once
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
-class Ticket
+struct Ticket
 {
-public:
-	std::vector<std::string> recipients;
-	std::string owner;
-	int giftsToGive = 0;
-	int giftsToRecieve = 0;
+    std::string owner;
+    int giftsGiven = 0;
+    int giftsRecieved = 0;
+    std::vector<Ticket*> recipeints;
 
-	Ticket(std::string& username) : owner{ username } {}
-
-	void unlinkRecipient(std::string& username);
+    Ticket(std::string username) : owner{username} {}
 };
 
 class Lottery
 {
-	private:
-		std::map<std::string, Ticket> ticketList;
-		std::vector<std::string> moderatorList;
-		std::time_t deadline;
-		std::string lotteryname;
-		int giftValue;
-		int giftsPerPerson;
-		bool isLotteryOpen = false;
+private:
+    std::string name;
+    std::time_t deadline;
+    int giftsPerPerson;
+    int giftValue;
+    std::map<std::string, Ticket> ticketList;
+    std::set<std::string> moderatorList;
 
-	public:
-		Lottery(std::time_t setDeadline, std::string& setLoterryname, int setGiftValue, int setGiftsPerPerson) :
-			deadline{ setDeadline },
-			lotteryname{ setLoterryname },
-			giftValue{ setGiftValue },
-			giftsPerPerson{ setGiftsPerPerson } {}
+    Ticket* findTicket(std::string& username);
 
-		bool getIsLotteryOpen() { return isLotteryOpen; }
-		std::string& getName() { return lotteryname; }
-		std::time_t getDeadline() { return deadline; }
-		int getGiftValue() { return giftValue; }
-		int getGiftsPerPerson() { return giftsPerPerson; }
+public:
+    Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue) : name{iName}, deadline{iDeadline}, giftsPerPerson{iGiftsPerPerson}, giftValue{iGiftValue} {}
+   
+    std::string& getName() { return name; }
+    void setName(std::string& iName) { name = iName; }
+    void setDeadline(std::time_t iDeadline) { deadline = iDeadline; }
+    void setGiftsPerPerson(int iGiftsPerPerson) { giftsPerPerson = iGiftsPerPerson; }
+    void setGiftValue(int iGiftValue) { giftValue = iGiftValue; }
 
-		void setName(std::string& newLotteryname) { lotteryname = newLotteryname; }
-		void setDeadline(std::time_t newDeadline) { deadline = newDeadline; }
-		void setGiftValue(int newGiftValue) { giftValue = newGiftValue; }
-		void setGiftsPerPerson(int newGiftsPerPerson) { giftsPerPerson = newGiftsPerPerson; }
+    void addParticipant(std::string& username);
+    void drawVictims(std::string& username);
 
-		bool isOpen();
-		bool hasExpired();
-		bool isModerator(std::string& username);
-
-		void openLottery();
-		void addModerator(std::string& username);
-		void listModerators();
-		bool ticketExist(std::string& username);
-		void addTicket(std::string& username);
-		void printTicket(std::string& username);
-		void listTickets();
-		void removeTicket(std::string& username);
-		void roll(std::string& username);
+    void addModerator(std::string& username) { moderatorList.insert(username); }
+    bool isModerator(std::string& username);
 };

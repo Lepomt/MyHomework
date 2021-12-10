@@ -1,25 +1,19 @@
+#pragma once
+
 #include <vector>
 #include <string>
 
-enum privilages { banned, basicAccess, moderator, admin };
-
 class User
 {
-	private:
-		std::vector<std::string> lotteriesEntered;
-		std::string username;
-		privilages accessType;
+public:
+	enum Privilages { basicAccess, admin };
 
-	public:
-		User(std::string& setUsername, privilages setAccessType) :
-			username{ setUsername },
-			accessType{ setAccessType }{}
+	User(std::string& setUsername, Privilages setAccessType) : username{ setUsername }, accessType{ setAccessType }{}
 
-		std::string& getName() { return username; }
-		privilages getAccessType() { return accessType; }
-		std::vector<std::string>& getLotteriesEntered() { return lotteriesEntered; }
+	std::string& getName() { return username; }
+	Privilages getAccessType() { return accessType; }
 
-		bool isSubcribedToLottery(std::string& lotteryname); // may be unecessary
-		void subscribeToLottery(std::string& lotteryname);
-		void unsubscribeToLottery(std::string& lotteryname);
+private:
+	std::string username;
+	Privilages accessType;
 };
