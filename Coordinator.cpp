@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Coordinator.hpp"
 
 #define SECONDS_IN_DAY 86400

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Lotterybase.hpp"
 
 void Lotterybase::createLottery(std::string& name, std::time_t deadline, int giftsPerPerson, int giftValue)

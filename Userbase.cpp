@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Userbase.hpp"
 
 void Userbase::createUser(std::string& name, User::Privilages access)

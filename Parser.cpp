@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Parser.hpp"
 
 Parser::Parser(const Parser& other)
