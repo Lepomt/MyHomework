@@ -41,25 +41,25 @@ bool Coordinator::getInput()
     else
         std::cout << "/no_lottery: ";
 
-    switch (commandList.find(parser.getCommandName())->second)
+    switch (1)
     {
         case create:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
                 passCreate();
             break;
 
         case set:
-            if (checkConditions(IS_CUR_USR_LOT_MOD) && parser.expectArguments(1, Parser::stringType))
+            if (checkConditions(IS_CUR_USR_LOT_MOD) && parser.expectArguments(1, InputCollector::stringType))
                 passSet();
             break;
 
         case changeto:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
                 passChangeTo();
             break;
 
         case addto:
-            if (checkConditions(IS_CURRENT_LOTTERY) && parser.expectArguments(1, Parser::stringType))
+            if (checkConditions(IS_CURRENT_LOTTERY) && parser.expectArguments(1, InputCollector::stringType))
             {
                 std::string username = parser.extractArgument<std::string>(0);
                 if (userbase.findUser(username))
@@ -87,7 +87,7 @@ bool Coordinator::getInput()
             }
             break;
 
-        case help:
+        case help: // put into a file
             std::cout << ">create user/lottery NAME/NAME, DEADLINE, GIFTS_PER_PERSON, GIFT_VALUE\n"
                          "-Creates a new user/lottery. Deadline is expressed in days since today.\n"
                          ">set deadline/gifts/value DEADLINE/GIFTS_PER_PERSON/GIFT_VALUE\n"
@@ -116,7 +116,7 @@ void Coordinator::passCreate()
     switch (commandList.find(parser.extractArgument<std::string>(0))->second)
     {
         case user:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
             {
                 std::string username = parser.extractArgument<std::string>(1);
                 userbase.createUser(username, User::basicAccess);
@@ -126,7 +126,7 @@ void Coordinator::passCreate()
         case lottery:
             if (checkConditions(IS_CUR_USR_MOD)
                 && parser.expectArguments(
-                    5, Parser::stringType, Parser::stringType, Parser::intType, Parser::intType, Parser::intType))
+                    5, InputCollector::stringType, InputCollector::stringType, InputCollector::intType, InputCollector::intType, InputCollector::intType))
             {
                 std::string lotteryname = parser.extractArgument<std::string>(1);
                 lotterybase.createLottery(
@@ -146,7 +146,7 @@ void Coordinator::passSet()
     switch (commandList.find(parser.extractArgument<std::string>(0))->second)
     {
         case name:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
             {
                 std::string lotteryname = parser.extractArgument<std::string>(1);
                 currentLottery->setName(lotteryname);
@@ -154,19 +154,19 @@ void Coordinator::passSet()
             break;
 
         case deadline:
-            if (parser.expectArguments(2, Parser::stringType, Parser::intType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::intType))
             {
                 currentLottery->setDeadline(std::time(0) + SECONDS_IN_DAY * parser.extractArgument<int>(1));
             }
             break;
 
         case gifts:
-            if (parser.expectArguments(2, Parser::stringType, Parser::intType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::intType))
                 currentLottery->setGiftsPerPerson(parser.extractArgument<int>(1));
             break;
 
         case value:
-            if (parser.expectArguments(2, Parser::stringType, Parser::intType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::intType))
                 currentLottery->setGiftValue(parser.extractArgument<int>(1));
             break;
 
@@ -178,7 +178,7 @@ void Coordinator::passChangeTo()
     switch (commandList.find(parser.extractArgument<std::string>(0))->second)
     {
         case user:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
             {
                 std::string username = parser.extractArgument<std::string>(1);
                 User* user = userbase.findUser(username);
@@ -194,7 +194,7 @@ void Coordinator::passChangeTo()
             break;
 
         case lottery:
-            if (parser.expectArguments(2, Parser::stringType, Parser::stringType))
+            if (parser.expectArguments(2, InputCollector::stringType, InputCollector::stringType))
             {
                 std::string lotteryname = parser.extractArgument<std::string>(1);
                 Lottery* lottery = lotterybase.findLottery(lotteryname);

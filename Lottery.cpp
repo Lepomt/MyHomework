@@ -79,9 +79,4 @@ void Lottery::drawVictims(std::string& username)
 }
 
 bool Lottery::isModerator(std::string& username)
-{
-    if (moderatorList.find(username) == moderatorList.end())
-        return false;
-    else
-        return true;
-}
+{ return moderatorList.find(username) == moderatorList.end(); }

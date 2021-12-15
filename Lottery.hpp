@@ -29,6 +29,7 @@ private:
     Ticket* findTicket(std::string& username);
 
 public:
+    Lottery(std::string& iName) : name{iName}, deadline{std::time(0) + 86400}, giftsPerPerson{1}, giftValue{100} {}
     Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue) : name{iName}, deadline{iDeadline}, giftsPerPerson{iGiftsPerPerson}, giftValue{iGiftValue} {}
    
     std::string& getName() { return name; }

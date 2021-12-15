@@ -6,7 +6,7 @@
 
 #include "Lottery.hpp"
 #include "Lotterybase.hpp"
-#include "Parser.hpp"
+#include "InputCollector.hpp"
 #include "User.hpp"
 #include "Userbase.hpp"
 
@@ -31,7 +31,7 @@ private:
         value
     };
     std::map<std::string, Commands> commandList;
-    Parser parser;
+    InputCollector parser;
     Userbase userbase;
     Lotterybase lotterybase;
     User* currentUser = nullptr;
