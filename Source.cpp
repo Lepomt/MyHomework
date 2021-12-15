@@ -1,13 +1,14 @@
-<<<<<<< Updated upstream
-#define _CRT_SECURE_NO_WARNINGS
-
-#include <iostream>
-
 #include "Coordinator.hpp"
-=======
->>>>>>> Stashed changes
+#include "Command.hpp"
 
 int main()
-{
+{   
+    Coordinator coordinator;
+
+    do
+    {
+        coordinator.printCurrent();
+    } while (coordinator.dispatch(Parser::getNewCommand()));
+
     return 0;
 }

@@ -3,11 +3,11 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <set>
+#include <functional>
 
+#include "Command.hpp"
 #include "Lottery.hpp"
-#include "Lotterybase.hpp"
-#include "InputCollector.hpp"
-#include "User.hpp"
 #include "Userbase.hpp"
 
 class Coordinator
@@ -15,35 +15,29 @@ class Coordinator
 private:
     enum Commands
     {
+        help,
         user,
         lottery,
-        create,
-        set,
-        changeto,
-        addto,
-        join,
-        draw,
-        help,
-        quit,
-        name,
-        deadline,
-        gifts,
-        value
+        quit
     };
-    std::map<std::string, Commands> commandList;
-    InputCollector parser;
-    Userbase userbase;
-    Lotterybase lotterybase;
-    User* currentUser = nullptr;
-    Lottery* currentLottery = nullptr;
 
-    bool checkConditions(char flags);
+    std::map<std::string, Commands> commandList = {
+        {"help", help}, {"user", user}, {"lottery", lottery}, {"quit", quit}};
 
-    void passCreate();
-    void passSet();
-    void passChangeTo();
+    User* currentUser;
+    Lottery* currentLottery;
+
+    //Userbase userbase = Userbase(this);
+
+    void printHelp();
 
 public:
-    Coordinator();
-    bool getInput();
+
+    void setCurrentUser(User* iCurrentUser) { currentUser = iCurrentUser; }
+    void setCurrentLottery(Lottery* iCurrentLottery) { currentLottery = iCurrentLottery; }
+    User* getCurrentUser() { return currentUser; }
+    Lottery* getCurrentLottery() { return currentLottery; }
+
+    bool dispatch(Command command);
+    void printCurrent();
 };
