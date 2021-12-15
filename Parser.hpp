@@ -32,15 +32,15 @@ public:
     }
 
 private:
-    struct token
+    struct Token
     {
         void* data;
         Datatype type;
 
-        token(void* iData, Datatype iType) : data{iData}, type{iType} {}
+        Token(void* iData, Datatype iType) : data{iData}, type{iType} {}
     };
 
-    std::vector<token> tokens;
+    std::vector<Token> tokens;
     std::string blank = "";
     int argumentCount = 0;
 
