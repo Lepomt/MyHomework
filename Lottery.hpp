@@ -24,13 +24,14 @@ private:
     int giftsPerPerson;
     int giftValue;
     std::map<std::string, Ticket> ticketList;
+
     std::set<std::string> moderatorList;
+    std::set<std::string> requests;
 
     Ticket* findTicket(std::string& username);
 
 public:
-    Lottery(std::string& iName) : name{iName}, deadline{std::time(0) + 86400}, giftsPerPerson{1}, giftValue{100} {}
-    Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue) : name{iName}, deadline{iDeadline}, giftsPerPerson{iGiftsPerPerson}, giftValue{iGiftValue} {}
+    Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue);
    
     std::string& getName() { return name; }
     void setName(std::string& iName) { name = iName; }
@@ -38,9 +39,12 @@ public:
     void setGiftsPerPerson(int iGiftsPerPerson) { giftsPerPerson = iGiftsPerPerson; }
     void setGiftValue(int iGiftValue) { giftValue = iGiftValue; }
 
-    void addParticipant(std::string& username);
+    void addParticipant(std::string& caller, std::string& username);
     void drawVictims(std::string& username);
 
-    void addModerator(std::string& username) { moderatorList.insert(username); }
+    void addModerator(std::string& caller, std::string& username) { moderatorList.insert(username); } // make outside
     bool isModerator(std::string& username);
+
+    void requestToJoin(std::string& username);
+    void showRequests(std::string& username);
 };

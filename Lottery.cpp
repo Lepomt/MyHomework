@@ -2,6 +2,15 @@
 
 #include "Lottery.hpp"
 
+Lottery::Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue)
+{
+    name = iName;
+    deadline = iDeadline;
+    giftsPerPerson = iGiftsPerPerson;
+    giftValue = iGiftValue;
+    moderatorList.insert("admin");
+}
+
 Ticket* Lottery::findTicket(std::string& username)
 {
     auto ticket = ticketList.find(username);
@@ -15,8 +24,13 @@ Ticket* Lottery::findTicket(std::string& username)
     }
 }
 
-void Lottery::addParticipant(std::string& username)
+void Lottery::addParticipant(std::string& caller, std::string& username)
 {
+    if (!isModerator(caller))
+    {
+        std::cout << ">insufficient access to lottery\n";
+    }
+
     if (findTicket(username))
     {
         std::cout << ">user already joined the lottery\n";
@@ -24,6 +38,11 @@ void Lottery::addParticipant(std::string& username)
     else
     {
         ticketList.emplace(std::piecewise_construct, std::forward_as_tuple(username), std::forward_as_tuple(username));
+    }
+
+    if (requests.find(username) != requests.end())
+    {
+        requests.erase(username);
     }
 }
 
@@ -78,5 +97,24 @@ void Lottery::drawVictims(std::string& username)
     }
 }
 
-bool Lottery::isModerator(std::string& username)
-{ return moderatorList.find(username) == moderatorList.end(); }
+bool Lottery::isModerator(std::string& username) { return moderatorList.find(username) != moderatorList.end(); }
+
+void Lottery::requestToJoin(std::string& username)
+{
+    if (findTicket(username))
+    {
+        std::cout << ">you already joined the lottery\n";
+    }
+    else
+    {
+        requests.insert(username);
+    }
+}
+
+void Lottery::showRequests(std::string& username)
+{
+    for (auto& request : requests)
+    {
+        std::cout << " -" << request << std::endl;
+    }
+}

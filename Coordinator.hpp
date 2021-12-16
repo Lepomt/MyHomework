@@ -6,38 +6,71 @@
 #include <set>
 #include <functional>
 
-#include "Command.hpp"
+#include "Parser.hpp"
 #include "Lottery.hpp"
-#include "Userbase.hpp"
+#include "User.hpp"
 
 class Coordinator
 {
+public:
+    Coordinator();
+    bool dispatchCommands();
+    void printCurrent();
+
 private:
     enum Commands
     {
+        error,
         help,
         user,
         lottery,
+        create,
+        switchTo,
+        add,
+        join,
+        draw,
+        set,
+        name,
+        deadline,
+        gifts,
+        value,
+        requests,
+        promote,
         quit
     };
 
-    std::map<std::string, Commands> commandList = {
-        {"help", help}, {"user", user}, {"lottery", lottery}, {"quit", quit}};
+    std::map<std::string, Commands> commands = {
+        {"help", help},
+        {"user", user},
+        {"lottery", lottery},
+        {"create", create},
+        {"switch", switchTo},
+        {"add", add},
+        {"join", join},
+        {"draw", draw},
+        {"set", set},
+        {"name", name},
+        {"deadline", deadline},
+        {"gifts", gifts},
+        {"value", value},
+        {"requests", requests},
+        {"promote", promote},
+        {"quit", quit}};
+
+    Parser parser;
 
     User* currentUser;
     Lottery* currentLottery;
 
-    //Userbase userbase = Userbase(this);
+    std::map<std::string, User> userMapKeyedByName;
+    std::map<std::string, Lottery> lotteryMapKeyedByName;
+
+    Commands extractCommand();
+
+    void passCreate();
+    void passSwitchTo();
+    void passUser();
+    void passLottery();
 
     void printHelp();
-
-public:
-
-    void setCurrentUser(User* iCurrentUser) { currentUser = iCurrentUser; }
-    void setCurrentLottery(Lottery* iCurrentLottery) { currentLottery = iCurrentLottery; }
-    User* getCurrentUser() { return currentUser; }
-    Lottery* getCurrentLottery() { return currentLottery; }
-
-    bool dispatch(Command command);
-    void printCurrent();
 };

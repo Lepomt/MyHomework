@@ -1,14 +1,14 @@
+#include <iostream>
+
 #include "Coordinator.hpp"
-#include "Command.hpp"
 
 int main()
 {   
     Coordinator coordinator;
-
-    do
-    {
-        coordinator.printCurrent();
-    } while (coordinator.dispatch(Parser::getNewCommand()));
+    
+    while (coordinator.dispatchCommands()) {}
 
     return 0;
 }
+
+// FORMAT THE FILES
