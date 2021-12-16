@@ -1,13 +1,13 @@
 #pragma once
 
-#include <iostream>
+#include <functional>  // What is it used for?
+#include <iostream>    // What is it used for?
 #include <map>
+#include <set>  // What is it used for?
 #include <string>
-#include <set>
-#include <functional>
 
-#include "Parser.hpp"
 #include "Lottery.hpp"
+#include "Parser.hpp"
 #include "User.hpp"
 
 class Coordinator
@@ -18,6 +18,7 @@ public:
     void printCurrent();
 
 private:
+    // Prefer enum class over plain enums, to avoid implicit conversions.
     enum Commands
     {
         error,
@@ -38,7 +39,8 @@ private:
         promote,
         quit
     };
-
+    // Give `std::string` an alias so it is known what it represents. Give the map a decent name, like
+    // `IDENTIFIER_TO_COMMAND`. This map should be constant.
     std::map<std::string, Commands> commands = {
         {"help", help},
         {"user", user},
@@ -61,7 +63,7 @@ private:
 
     User* currentUser;
     Lottery* currentLottery;
-
+    // Same as the other map finding, e.g. `nameToUser`
     std::map<std::string, User> userMapKeyedByName;
     std::map<std::string, Lottery> lotteryMapKeyedByName;
 

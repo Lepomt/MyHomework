@@ -2,8 +2,10 @@
 
 #include "Lottery.hpp"
 
+// We're not changing `iName`, so `const` it.
 Lottery::Lottery(std::string& iName, std::time_t iDeadline, int iGiftsPerPerson, int iGiftValue)
 {
+    // Use initialization list for member fields.
     name = iName;
     deadline = iDeadline;
     giftsPerPerson = iGiftsPerPerson;
@@ -24,7 +26,8 @@ Ticket* Lottery::findTicket(std::string& username)
     }
 }
 
-void Lottery::addParticipant(std::string& caller, std::string& username)
+// Are we changing the caller? `const` it. And `username` too.
+void Lottery::addParticipant(std::string& caller, std::string& username)  // const
 {
     if (!isModerator(caller))
     {
@@ -46,7 +49,8 @@ void Lottery::addParticipant(std::string& caller, std::string& username)
     }
 }
 
-void Lottery::drawVictims(std::string& username)
+// const
+void Lottery::drawVictims(std::string& username)  // const
 {
     Ticket* userTicket = findTicket(username);
 
@@ -62,8 +66,8 @@ void Lottery::drawVictims(std::string& username)
         return;
     }
 
+    // Extract it as a function, e.g. "getPossibleAssignments".
     std::vector<Ticket*> pool;
-
     for (auto& ticket : ticketList)
     {
         if (ticket.second.owner != userTicket->owner && ticket.second.giftsRecieved < giftsPerPerson)
@@ -78,8 +82,9 @@ void Lottery::drawVictims(std::string& username)
         return;
     }
 
+    // This is not used outside the following for loop.
     int randomNumber;
-
+    // `i` is fine for that kind of arbitrary counters. (Because you're not using the `counter` for anything.)
     for (int counter = 0; counter < giftsPerPerson; counter++)
     {
         randomNumber = rand() % pool.size();
@@ -89,6 +94,7 @@ void Lottery::drawVictims(std::string& username)
         pool.erase(pool.begin() + randomNumber);
     }
 
+    // Extract a printer method/overloard ostream operator.
     std::cout << ">deadline: " << ctime(&deadline) << ">gift value: " << giftValue << "\n>give gifts to:\n";
 
     for (auto recipient : userTicket->recipeints)
@@ -96,7 +102,7 @@ void Lottery::drawVictims(std::string& username)
         std::cout << " -" << recipient->owner << std::endl;
     }
 }
-
+// Consider renaming to `canModerate`.
 bool Lottery::isModerator(std::string& username) { return moderatorList.find(username) != moderatorList.end(); }
 
 void Lottery::requestToJoin(std::string& username)
@@ -111,6 +117,7 @@ void Lottery::requestToJoin(std::string& username)
     }
 }
 
+// Unused parameter.
 void Lottery::showRequests(std::string& username)
 {
     for (auto& request : requests)

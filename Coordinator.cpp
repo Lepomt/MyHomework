@@ -2,7 +2,11 @@
 
 Coordinator::Coordinator()
 {
-    currentUser = &userMapKeyedByName.emplace(std::piecewise_construct, std::forward_as_tuple("admin"), std::forward_as_tuple("admin", User::admin)).first->second;
+    currentUser =
+        &userMapKeyedByName
+             .emplace(
+                 std::piecewise_construct, std::forward_as_tuple("admin"), std::forward_as_tuple("admin", User::admin))
+             .first->second;
 }
 
 bool Coordinator::dispatchCommands()
@@ -14,7 +18,7 @@ bool Coordinator::dispatchCommands()
         return false;
 
     switch (extractCommand())
-    { 
+    {
         case quit: return false;
 
         case help: printHelp(); break;
@@ -27,7 +31,7 @@ bool Coordinator::dispatchCommands()
 
         case lottery: passLottery(); break;
 
-        default: std::cout << ">invalid command\n";  
+        default: std::cout << ">invalid command\n";
     }
 
     return true;
@@ -52,7 +56,8 @@ void Coordinator::passCreate()
             break;
 
         case lottery:
-            if (parser.expectArguments(4, Parser::stringType, Parser::intType, Parser::intType, Parser::intType) && currentUser->getAccessType() == User::admin)
+            if (parser.expectArguments(4, Parser::stringType, Parser::intType, Parser::intType, Parser::intType)
+                && currentUser->getAccessType() == User::admin)
             {
                 std::string name = parser.extractString();
                 int deadline = parser.extractInt();
@@ -102,7 +107,7 @@ void Coordinator::passSwitchTo()
     }
 }
 
-void Coordinator::passUser() 
+void Coordinator::passUser()
 {
     if (!parser.expectArguments(2, Parser::stringType, Parser::stringType))
         return;
@@ -121,14 +126,12 @@ void Coordinator::passUser()
         std::cout << ">lottery " << name << " doesn't exist\n";
         return;
     }
-        
+
     switch (command)
     {
-        case join: lottery->second.requestToJoin(currentUser->getName());
-            break;
+        case join: lottery->second.requestToJoin(currentUser->getName()); break;
 
-        case draw: lottery->second.drawVictims(currentUser->getName());
-            break;
+        case draw: lottery->second.drawVictims(currentUser->getName()); break;
 
         default: std::cout << ">invalid command\n";
     }
@@ -195,7 +198,7 @@ void Coordinator::passLottery()
             break;
 
         case requests: currentLottery->showRequests(currentUser->getName()); break;
-            
+
         default: std::cout << ">invalid command\n";
     }
 }

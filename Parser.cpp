@@ -2,6 +2,7 @@
 
 void Parser::getNextLine(std::istream& stream)
 {
+    // Declare variables directly before their usage.
     std::string line;
     std::string word;
     std::stringstream subStream;
@@ -44,7 +45,7 @@ bool Parser::expectArguments(int count, ...)
             case stringType: break;
 
             default:
-                loop_break:
+            loop_break:
                 std::cout << ">invalid argument " << index + 1 << std::endl;
                 va_end(arguments);
                 return false;
@@ -55,15 +56,9 @@ bool Parser::expectArguments(int count, ...)
     return true;
 }
 
-int Parser::extractInt()
-{
-    return std::stoi(words[depth++]);
-}
+int Parser::extractInt() { return std::stoi(words[depth++]); }
 
-std::string Parser::extractString()
-{
-    return words[depth++];
-}
+std::string Parser::extractString() { return words[depth++]; }
 
 bool Parser::isNumber(std::string& string)
 {
